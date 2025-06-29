@@ -1,3 +1,10 @@
+import { Button } from "./components/ui/button";
+
 export default function App() {
-  return <h1>Counter app</h1>;
+  return (
+    <div>
+      Counter app
+      <Button>Increment</Button>
+    </div>
+  );
 }
