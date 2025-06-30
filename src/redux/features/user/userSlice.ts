@@ -1,5 +1,6 @@
+import { v4 as uuidv4 } from "uuid";
 import type { RootState } from "@/redux/store";
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 interface IUser {
   id: string;
@@ -9,6 +10,15 @@ interface IUser {
 interface IInitialState {
   users: IUser[];
 }
+
+type draftUser = Pick<IUser, "name">;
+
+const createUser = (user: draftUser): IUser => {
+  return {
+    id: uuidv4(),
+    name: user.name,
+  };
+};
 
 const initialState: IInitialState = {
   users: [
@@ -27,10 +37,16 @@ const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    addUser: () => {},
+    addUser: (state, action: PayloadAction<string>) => {
+      const newUser = createUser({ name: action.payload });
+      state.users.push(newUser);
+    },
+    deleteUser: (state, action: PayloadAction<string>) => {
+      state.users = state.users.filter((user) => user.id !== action.payload);
+    },
   },
 });
 
 export const userReducer = userSlice.reducer;
-export const { addUser } = userSlice.actions;
+export const { addUser, deleteUser } = userSlice.actions;
 export const selectUsers = (state: RootState) => state.users.users;
