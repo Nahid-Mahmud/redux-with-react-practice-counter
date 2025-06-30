@@ -1,6 +1,6 @@
 "use client";
 
-import { useForm } from "react-hook-form";
+import { useForm, type FieldValues, type SubmitHandler } from "react-hook-form";
 
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
@@ -8,9 +8,9 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { useState } from "react";
 import { addTask, type ITask } from "@/redux/features/task/taskSlice";
 import { useAppDispatch } from "@/redux/hook";
+import { useState } from "react";
 
 // type TaskFormData = {
 //   title: string;
@@ -33,11 +33,11 @@ export function AddTaskModal() {
     },
   });
 
-  const handleSubmit = (data: ITask) => {
+  const handleSubmit: SubmitHandler<FieldValues> = (data) => {
     // onSubmit(data);
     console.log(data);
 
-    dispatch(addTask(data));
+    dispatch(addTask(data as ITask));
 
     form.reset();
     setOpen(false);
