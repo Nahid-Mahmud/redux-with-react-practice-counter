@@ -9,6 +9,7 @@ export interface ITask {
   dueDate: string;
   completed: boolean;
   priority: "high" | "medium" | "low";
+  assignedTo: string | null; // Optional field for user assignment
 }
 
 export type IFilter = "high" | "medium" | "low" | "all";
@@ -28,6 +29,7 @@ const initialState: InitialState = {
       dueDate: "2023-10-31",
       completed: false,
       priority: "high",
+      assignedTo: "akjhdfafdj",
     },
     {
       id: "2",
@@ -37,12 +39,13 @@ const initialState: InitialState = {
       dueDate: "2023-10-15",
       completed: true,
       priority: "medium",
+      assignedTo: "lkjdfalkjfdlkjfds",
     },
   ],
   filter: "all",
 };
 
-type draftTask = Pick<ITask, "title" | "description" | "dueDate" | "priority">;
+type draftTask = Pick<ITask, "title" | "description" | "dueDate" | "priority" | "assignedTo">;
 
 const createTask = (task: draftTask): ITask => {
   return {
@@ -53,6 +56,7 @@ const createTask = (task: draftTask): ITask => {
     dueDate: task.dueDate,
     completed: false,
     priority: task.priority,
+    assignedTo: task.assignedTo,
   };
 };
 

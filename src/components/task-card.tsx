@@ -1,10 +1,15 @@
 import { cn } from "@/lib/utils";
 import { deleteTask, toggleComplete, type ITask } from "@/redux/features/task/taskSlice";
+import { selectUsers } from "@/redux/features/user/userSlice";
+import { useAppSelector } from "@/redux/hook";
 import { Pencil, Trash2 } from "lucide-react";
 import { useDispatch } from "react-redux";
 
 const TaskCard = ({ task }: { task: ITask }) => {
   const dispatch = useDispatch();
+  const users = useAppSelector(selectUsers);
+
+  const userName = users.find((user) => user.id === task.assignedTo)?.name || "Unassigned";
 
   const handleToggleComplete = () => {
     // dispatch(toggleComplete(task.id));
@@ -69,6 +74,11 @@ const TaskCard = ({ task }: { task: ITask }) => {
         })}
       >
         <strong>Due Date:</strong> {task.dueDate}
+      </div>
+
+      <div>
+        <strong className="text-sm text-gray-500 dark:text-gray-400">Assigned To:</strong>{" "}
+        <span className="text-gray-800 dark:text-gray-200">{userName}</span>
       </div>
 
       <div
