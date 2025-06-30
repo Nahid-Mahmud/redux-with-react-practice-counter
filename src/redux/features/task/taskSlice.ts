@@ -1,5 +1,5 @@
 import type { RootState } from "@/redux/store";
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, nanoid } from "@reduxjs/toolkit";
 
 export interface ITask {
   id: string;
@@ -40,17 +40,26 @@ const initialState: InitialState = {
   filter: "all",
 };
 
+type draftTask = Pick<ITask, "title" | "description" | "dueDate" | "priority">;
+
+const createTask = (task: draftTask): ITask => {
+  return {
+    id: nanoid(),
+    title: task.title,
+    description: task.description,
+    status: "pending",
+    dueDate: task.dueDate,
+    completed: false,
+    priority: task.priority,
+  };
+};
+
 const taskSlice = createSlice({
   name: "task",
   initialState,
   reducers: {
     addTask: (state, action) => {
-      const newTask: ITask = {
-        id: new Date().toISOString(),
-        ...action.payload,
-        completed: false,
-        status: "pending",
-      };
+      const newTask = createTask(action.payload);
       state.task.push(newTask);
     },
     editTask: (state, action) => {

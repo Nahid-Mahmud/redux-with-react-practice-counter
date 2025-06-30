@@ -1,8 +1,11 @@
 import { cn } from "@/lib/utils";
-import type { ITask } from "@/redux/features/task/taskSlice";
+import { deleteTask, type ITask } from "@/redux/features/task/taskSlice";
 import { Pencil, Trash2 } from "lucide-react";
+import { useDispatch } from "react-redux";
 
 const TaskCard = ({ task }: { task: ITask }) => {
+  const dispatch = useDispatch();
+
   //   const priorityColors = {
   //     high: "text-red-600 border-red-500 dark:text-red-400 dark:border-red-400",
   //     medium: "text-yellow-600 border-yellow-500 dark:text-yellow-400 dark:border-yellow-400",
@@ -59,7 +62,7 @@ const TaskCard = ({ task }: { task: ITask }) => {
 
         <button
           className="flex items-center gap-1 px-3 py-1.5 text-sm text-red-600 border border-red-500 rounded-md hover:bg-red-100 dark:text-red-400 dark:border-red-400 dark:hover:bg-red-900"
-          onClick={() => console.log("Delete", task.id)}
+          onClick={() => dispatch(deleteTask(task.id))}
         >
           <Trash2 className="w-4 h-4" />
           Delete

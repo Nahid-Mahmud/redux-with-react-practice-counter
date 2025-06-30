@@ -9,7 +9,8 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
-import type { ITask } from "@/redux/features/task/taskSlice";
+import { addTask, type ITask } from "@/redux/features/task/taskSlice";
+import { useAppDispatch } from "@/redux/hook";
 
 // type TaskFormData = {
 //   title: string;
@@ -20,6 +21,8 @@ import type { ITask } from "@/redux/features/task/taskSlice";
 
 export function AddTaskModal() {
   const [open, setOpen] = useState(false);
+
+  const dispatch = useAppDispatch();
 
   const form = useForm<ITask>({
     defaultValues: {
@@ -33,6 +36,9 @@ export function AddTaskModal() {
   const handleSubmit = (data: ITask) => {
     // onSubmit(data);
     console.log(data);
+
+    dispatch(addTask(data));
+
     form.reset();
     setOpen(false);
   };
