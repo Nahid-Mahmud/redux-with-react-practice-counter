@@ -1,5 +1,5 @@
 import type { RootState } from "@/redux/store";
-import { createSlice, nanoid } from "@reduxjs/toolkit";
+import { createSlice, nanoid, type PayloadAction } from "@reduxjs/toolkit";
 
 export interface ITask {
   id: string;
@@ -58,25 +58,33 @@ const taskSlice = createSlice({
   name: "task",
   initialState,
   reducers: {
-    addTask: (state, action) => {
+    addTask: (state, action: PayloadAction<draftTask>) => {
       const newTask = createTask(action.payload);
       state.task.push(newTask);
     },
-    editTask: (state, action) => {
+    editTask: (state, action: PayloadAction<{ id: string } & Partial<ITask>>) => {
       const { id, ...updatedTask } = action.payload;
       const index = state.task.findIndex((task) => task.id === id);
       if (index !== -1) {
         state.task[index] = { ...state.task[index], ...updatedTask };
       }
     },
-    deleteTask: (state, action) => {
+    deleteTask: (state, action: PayloadAction<string>) => {
       const id = action.payload;
       state.task = state.task.filter((task) => task.id !== id);
+    },
+    toggleComplete: (state, action: PayloadAction<string>) => {
+      const id = action.payload;
+      const task = state.task.find((t) => t.id === id);
+      if (task) {
+        task.completed = !task.completed;
+        task.status = task.completed ? "completed" : "pending";
+      }
     },
   },
 });
 
 export const taskReducer = taskSlice.reducer;
-export const { addTask, editTask, deleteTask } = taskSlice.actions;
+export const { addTask, editTask, deleteTask, toggleComplete } = taskSlice.actions;
 export const selectTasks = (state: RootState) => state.tasks.task;
 export const selectFilter = (state: RootState) => state.tasks.filter;

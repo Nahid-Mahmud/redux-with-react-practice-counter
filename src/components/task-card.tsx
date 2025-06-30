@@ -1,21 +1,34 @@
 import { cn } from "@/lib/utils";
-import { deleteTask, type ITask } from "@/redux/features/task/taskSlice";
+import { deleteTask, toggleComplete, type ITask } from "@/redux/features/task/taskSlice";
 import { Pencil, Trash2 } from "lucide-react";
 import { useDispatch } from "react-redux";
 
 const TaskCard = ({ task }: { task: ITask }) => {
   const dispatch = useDispatch();
 
-  //   const priorityColors = {
-  //     high: "text-red-600 border-red-500 dark:text-red-400 dark:border-red-400",
-  //     medium: "text-yellow-600 border-yellow-500 dark:text-yellow-400 dark:border-yellow-400",
-  //     low: "text-green-600 border-green-500 dark:text-green-400 dark:border-green-400",
-  //   };
+  const handleToggleComplete = () => {
+    // dispatch(toggleComplete(task.id));
+    dispatch(toggleComplete(task.id));
+  };
 
   return (
     <div className="bg-white dark:bg-gray-800 shadow-md rounded-2xl p-5 border border-gray-200 dark:border-gray-700 w-full max-w-md">
       <div className="flex items-center justify-between mb-3">
-        <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100">{task.title}</h2>
+        <div className="flex items-center gap-2">
+          <input
+            type="checkbox"
+            checked={task.completed}
+            onChange={handleToggleComplete}
+            className="w-4 h-4 accent-green-600"
+          />
+          <h2
+            className={cn("text-xl font-semibold text-gray-800 dark:text-gray-100", {
+              "line-through text-gray-400 dark:text-gray-500": task.completed,
+            })}
+          >
+            {task.title}
+          </h2>
+        </div>
         <span
           className={cn(`text-sm font-medium px-2 py-1 rounded-full border`, {
             "text-red-600 border-red-500 dark:text-red-400 dark:border-red-400": task.priority === "high",
@@ -27,9 +40,19 @@ const TaskCard = ({ task }: { task: ITask }) => {
         </span>
       </div>
 
-      <p className="text-gray-600 dark:text-gray-300 mb-4">{task.description}</p>
+      <p
+        className={cn("text-gray-600 dark:text-gray-300 mb-4", {
+          "line-through text-gray-400 dark:text-gray-500": task.completed,
+        })}
+      >
+        {task.description}
+      </p>
 
-      <div className="text-sm text-gray-500 dark:text-gray-400 mb-2">
+      <div
+        className={cn("text-sm text-gray-500 dark:text-gray-400 mb-2", {
+          "line-through text-gray-400 dark:text-gray-500": task.completed,
+        })}
+      >
         <strong>Status:</strong>{" "}
         <span
           className={
@@ -40,11 +63,19 @@ const TaskCard = ({ task }: { task: ITask }) => {
         </span>
       </div>
 
-      <div className="text-sm text-gray-500 dark:text-gray-400 mb-2">
+      <div
+        className={cn("text-sm text-gray-500 dark:text-gray-400 mb-2", {
+          "line-through text-gray-400 dark:text-gray-500": task.completed,
+        })}
+      >
         <strong>Due Date:</strong> {task.dueDate}
       </div>
 
-      <div className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+      <div
+        className={cn("text-sm text-gray-500 dark:text-gray-400 mb-4", {
+          "line-through text-gray-400 dark:text-gray-500": task.completed,
+        })}
+      >
         <strong>Completed:</strong>{" "}
         <span className={task.completed ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400"}>
           {task.completed ? "Yes" : "No"}
