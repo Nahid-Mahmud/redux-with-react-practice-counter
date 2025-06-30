@@ -91,5 +91,19 @@ const taskSlice = createSlice({
 
 export const taskReducer = taskSlice.reducer;
 export const { addTask, editTask, deleteTask, toggleComplete, updateFilter } = taskSlice.actions;
-export const selectTasks = (state: RootState) => state.tasks.task;
+export const selectTasks = (state: RootState) => {
+  const filter = state.tasks.filter;
+  switch (filter) {
+    case "all":
+      return state.tasks.task;
+    case "high":
+      return state.tasks.task.filter((task) => task.priority === "high");
+    case "medium":
+      return state.tasks.task.filter((task) => task.priority === "medium");
+    case "low":
+      return state.tasks.task.filter((task) => task.priority === "low");
+    default:
+      return state.tasks.task;
+  }
+};
 export const selectFilter = (state: RootState) => state.tasks.filter;
