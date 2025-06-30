@@ -11,9 +11,11 @@ export interface ITask {
   priority: "high" | "medium" | "low";
 }
 
+export type IFilter = "high" | "medium" | "low" | "all";
+
 interface InitialState {
   task: ITask[];
-  filter: "high" | "medium" | "low" | "all";
+  filter: IFilter;
 }
 
 const initialState: InitialState = {
@@ -81,10 +83,13 @@ const taskSlice = createSlice({
         task.status = task.completed ? "completed" : "pending";
       }
     },
+    updateFilter: (state, action: PayloadAction<IFilter>) => {
+      state.filter = action.payload;
+    },
   },
 });
 
 export const taskReducer = taskSlice.reducer;
-export const { addTask, editTask, deleteTask, toggleComplete } = taskSlice.actions;
+export const { addTask, editTask, deleteTask, toggleComplete, updateFilter } = taskSlice.actions;
 export const selectTasks = (state: RootState) => state.tasks.task;
 export const selectFilter = (state: RootState) => state.tasks.filter;
