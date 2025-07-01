@@ -4,6 +4,7 @@ const postApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getPosts: builder.query({
       query: () => "/posts",
+      providesTags: ["Posts"],
     }),
     getPostById: builder.query({
       query: (id) => `/posts/${id}`,
