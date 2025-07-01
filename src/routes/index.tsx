@@ -1,5 +1,6 @@
 import MainLayout from "@/layout/MainLayout";
 import Home from "@/pages/home/Home";
+import Posts from "@/pages/posts/Posts";
 import User from "@/pages/users/User";
 import { createBrowserRouter } from "react-router";
 
@@ -15,6 +16,10 @@ const router = createBrowserRouter([
       {
         path: "/users",
         element: <User />,
+      },
+      {
+        path: "/posts",
+        element: <Posts />,
       },
     ],
   },

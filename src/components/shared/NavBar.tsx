@@ -13,10 +13,15 @@ export default function NavBar() {
                 Task Master
               </Link>
             </div>
-            <ul>
+            <ul className="flex gap-5">
               <li>
                 <Link to={"/users"} className="hover:underline">
                   Users
+                </Link>
+              </li>
+              <li>
+                <Link to={"/posts"} className="hover:underline">
+                  Posts
                 </Link>
               </li>
             </ul>
