@@ -1,4 +1,5 @@
 import { useGetPostsQuery } from "@/redux/features/post/postApi";
+import { Link } from "react-router";
 
 interface IPost {
   userId: number;
@@ -17,10 +18,12 @@ export default function Posts() {
       ) : (
         <ul className="list-disc pl-5">
           {postsData?.map((post: IPost) => (
-            <li key={post.id} className="mb-2">
-              <h3 className="text-lg font-semibold">{post.title}</h3>
-              <p>{post.body}</p>
-            </li>
+            <Link to={`/posts/${post.id}`} className="no-underline text-black" key={post.id}>
+              <li key={post.id} className="mb-2">
+                <h3 className="text-lg font-semibold">{post.title}</h3>
+                <p>{post.body}</p>
+              </li>
+            </Link>
           ))}
         </ul>
       )}
